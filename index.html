@@ -63,8 +63,8 @@ D('Forward','forward N drives N pixels. The pad is 320px ahead: edit the number,
 D('Reverse','The pad is behind you and you cannot turn yet. back N reverses.','wheel',{s:[300,150,0],g:[[60,150]]}),
 D('Turn','The pad is straight up. turn -90 swings anticlockwise to face up, then drive.','wheel',{s:[200,260,0],g:[[200,40]]}),
 D('Wait','The gate opens after 2.5s. wait 10 pauses one second.','wheel',{dr:[200,0,14,300],opn:150,code:'forward 100\n'}),
-D('Repeat','Drive the square in 3 lines: repeat 4, forward 180, turn 90 (plus end).','wheel',{s:[60,60,0],g:[[240,60],[240,240],[60,240],[60,60]],ml:3}),
-D('Triangle','Triangle corners need -120 turns (anticlockwise). 3 lines max.','wheel',{s:[100,230,0],g:[[280,230],[190,74],[100,230]],ml:3}),
+D('Repeat','Drive the square in 3 lines: repeat 4, forward 180, turn 90 (plus end). Corners can be visited in any order, so either direction works.','wheel',{s:[60,60,0],g:[[240,60],[240,240],[60,240],[60,60]],ml:3,any:1,code:'# Fill in the loop body (2 lines)\nrepeat 4\n  \nend\n'}),
+D('Triangle','Triangle corners need -120 turns (anticlockwise). 3 lines max.','wheel',{s:[100,230,0],g:[[280,230],[190,74],[100,230]],ml:3,any:1,code:'# Fill in the loop body (2 lines)\nrepeat 3\n  \nend\n'}),
 D('Shuttle','You face down. Drive to the first pad, then reverse to the second.','wheel',{s:[200,40,90],g:[[200,200],[200,100]]}),
 D('Slalom','Weave round three walls: up and over, down and under, up and over.','wheel',{s:[40,250,0],g:[[365,60]],w:[[100,100,16,200],[200,0,16,200],[300,100,16,200]],time:45}),
 D('Forever','Distance unknown: run to the far wall. forever … end loops without counting.','wheel',{g:[[372,150]],ml:3}),
@@ -75,20 +75,20 @@ D('Timed Door','The door shuts 2.5s after your last press. Press, raise the arm,
 D('Two Buttons','Press both buttons, (120,80) and (120,220). They stay pressed.','wheel arm',{dr:dd,bt:[[120,80],[120,220]],time:40}),
 D('Button Row','Three buttons 80px apart, then the door. 6 lines max: use repeat.','wheel arm',{s:[14,150,0],dr:[310,0,14,300],bt:[[94,150],[174,150],[254,150]],ml:6}),
 D('Wall Sensor','wall_ahead is true when a wall is close. Turn when it is, drive when it is not.','wheel sensor',{w:[[300,0,16,200]],g:[[250,255]],code:'forever\n  if wall_ahead\n    \n  else\n    forward 10\n  end\nend\n'}),
-D('Ring Road','The inner block makes a ring road. Same loop as before: which way should it turn?','wheel sensor',{w:ring,s:[30,30,0],g:[[30,270]]}),
+D('Ring Road','The inner block makes a ring road. Same loop as before: which way should it turn?','wheel sensor',{w:ring,s:[30,30,0],g:[[100,240]]}),
 D('Maze','Zigzag down, along, up, across, down. Sensors optional.','wheel sensor',{x:'armor',w:mz,s:[40,40,0],g:[[365,255]],time:45}),
-D('Blind Bot','No sensor in the shop. bumped is true after you hit something.','wheel',{w:ring,s:[30,30,0],g:[[30,270]],code:'forever\n  forward 10\n  if bumped\n    \n  end\nend\n'}),
+D('Blind Bot','No sensor in the shop. bumped is true after you hit something.','wheel',{w:ring,s:[30,30,0],g:[[100,280]],code:'forever\n  forward 10\n  if bumped\n    \n  end\nend\n'}),
 D('Door Sentry','Closed doors count as walls. Park at the door with wall_ahead, then press the button.','wheel arm sensor',{dr:dd,bt:[[225,150]]}),
 D('Spin On','Crates block the gap. spin on makes the blade cut what is in front. Keep driving.','wheel spin',{w:[[190,0,30,120],[190,180,30,120]],cr:[[205,150]],time:40,code:'spin on\nforward 400\n'}),
 D('Spin Off','The blade is jammed on and the pad is fragile. spin off before you get within 50px.','wheel spin',{sp:1,frag:1,code:'forward 100\n'}),
 D('Crate Line','Three crates in a row. Loop your moves so you never run out of steps.','wheel spin',{cr:[[140,150],[220,150],[300,150]],time:40}),
 D('Target Ahead','A static enemy. Face it, then drive in with the blade on. enemy_ahead needs a sensor.','wheel spin sensor',{s:[60,230,0],e:{x:300,y:80,hp:60,sp:0,d:0},kill:1,time:40}),
-D('Seek','Enemy in the far corner. Turn until enemy_ahead, then charge with the blade on.','wheel spin sensor',{s:[60,80,0],e:{x:330,y:230,hp:80,sp:0,d:0},kill:1,time:40,code:'spin on\nforever\n  if enemy_ahead\n    \n  else\n    \n  end\nend\n'}),
+D('Seek','Enemy off to one side. Turn until enemy_ahead, then charge with the blade on.','wheel spin sensor',{s:[60,80,0],e:{x:230,y:200,hp:80,sp:0,d:0},kill:1,time:40,code:'spin on\nforever\n  if enemy_ahead\n    \n  else\n    \n  end\nend\n'}),
 D('Armor Test','Survive 12 seconds with an enemy on you. Armor halves damage.','armor',{x:'wheel',s:[60,150,0],e:{x:130,y:150,hp:9999,sp:.75,d:.25},surv:720,time:14}),
 D('Duel','The enemy chases you. Seek, strike first. Armor is optional.','wheel spin sensor',{x:'armor',e:{x:340,y:150,hp:100,sp:.75,d:.25},kill:1,time:45,code:SK}),
 D('Fast Enemy','Quicker and harder hitting. Armor is now a good idea.','wheel spin sensor',{x:'armor',e:{x:340,y:150,hp:100,sp:.95,d:.3},kill:1,time:45,code:SK}),
 D('Boss','250 HP. Beat it before the clock runs out.','wheel spin sensor',{x:'armor',e:{x:340,y:150,hp:250,sp:.7,d:.35},kill:1,time:70,code:SK}),
-D('Rescue Run','Destroy the guard, then reach the pad at the top right.','wheel spin sensor',{x:'armor',s:[40,260,0],g:[[365,40]],e:{x:300,y:150,hp:80,sp:.7,d:.25},kill:1,time:60,code:SK}),
+D('Rescue Run','A guard stands off to the side. Destroy it, then reach the pad at the top right. Working out the headings is half the fight.','wheel spin sensor',{x:'armor',s:[40,260,0],g:[[365,40]],e:{x:300,y:150,hp:80,sp:0,d:.15},kill:1,time:60}),
 D('First Steps','Walkers use legs. walk N takes N pixel steps. Go 60.','legs',{...H,gx:100}),
 D('Balance','Without a gyro a walker topples after about 70px. Cross the stage.','legs gyro',{...H,gx:360}),
 D('Wave Gate','The guard at x=200 wants a wave first. wave, then keep walking.','legs gyro arm',{...H,gx:360,gt:[[200,'wave']]}),
@@ -100,14 +100,14 @@ D('Hello','Greet the human at 250: say hello within 70px in front of them.','leg
 D('Meet Three','Humans at 130, 230 and 320. Greet all three on the way past.','legs gyro cpu',{...H,hu:[130,230,320],x:'cam arm',time:40,code:'repeat 10\n  walk 40\nend\n'}),
 D('Polite Greeting','Wave, then say hello. Greetings only count within 4s of a wave.','legs gyro arm cpu',{...H,hu:[130,230,320],gw:1,x:'cam',time:50}),
 D('Crowd','Five humans. Greet them all in 10 lines or fewer.','legs gyro cpu cam',{...H,hu:[100,160,220,280,340],ml:10,time:50}),
-D('Personal Space','Greet three humans but never touch one. Stop in range, then speak.','legs gyro cpu cam',{...H,hu:[150,250,330],tc:1,time:50}),
+D('Personal Space','Greetings only count within 40px here. Walk in small steps and say hello after each one.','legs gyro cpu cam',{...H,hu:[150,250,330],gd:40,time:50}),
 D('Red Carpet','Arm up at 100, wave at 170, then greet the two humans ahead.','legs gyro arm cpu',{...H,x:'cam',gt:[[100,'up'],[170,'wave']],hu:[250,320],time:50}),
 D('Gauntlet I','Button, door, crate. Press, pass, cut, finish. Blade and arm in one run.','wheel arm spin',{dr:dd,bt:[[150,150]],w:[[300,0,40,120],[300,180,40,120]],cr:[[320,150]],time:60}),
-D('Gauntlet II','Ring road with a guard on patrol. Kill it and reach the corner pad.','wheel spin sensor',{x:'armor',w:ring,s:[30,30,0],g:[[30,270]],e:{x:300,y:260,hp:80,sp:.5,d:.2},kill:1,time:70}),
-D('Pit Stop','Blade jammed on, fragile pad, enemy circling. Kill it, spin off, then deliver.','wheel spin sensor',{x:'armor',sp:1,frag:1,g:[[360,150]],e:{x:200,y:60,hp:80,sp:.7,d:.25},kill:1,time:60,code:SK}),
+D('Gauntlet II','Ring road with a guard blocking the right-hand lane. Cut through it and reach the pad. Tip: you can nest an if inside an else.','wheel spin sensor',{x:'armor',w:ring,s:[30,30,0],g:[[100,240]],e:{x:330,y:150,hp:80,sp:0,d:.2},kill:1,time:70}),
+D('Pit Stop','Blade jammed on, fragile pad, enemy closing in. Spin in place to kill it (whole turns of 360 keep your heading), then spin off and deliver.','wheel spin sensor',{x:'armor',sp:1,frag:1,g:[[360,150]],e:{x:200,y:60,hp:80,sp:.7,d:.25},kill:1,time:60,code:'repeat 150\n  turn 12\nend\n# then: spin off, then forward 320\n'}),
 D('Heist','Maze plus a locked door at x=330. Press the button at (300,60) on the way.','wheel arm sensor',{w:mz,dr:[330,0,14,300],bt:[[300,60]],s:[40,40,0],g:[[365,255]],time:60}),
 D('Showtime','Everything at once: wave at 100, arm up at 180, speak at 260, greet four humans.','legs gyro arm cpu',{...H,x:'cam',gt:[[100,'wave'],[180,'up'],[260,'say']],hu:[150,220,300,350],gw:1,time:60}),
-D('Final Exam','Maze, guard, armor. Kill the guard, then reach the pad. No hints.','wheel spin sensor',{x:'armor',w:mz,s:[40,40,0],g:[[365,255]],e:{x:200,y:250,hp:100,sp:.6,d:.25},kill:1,time:90}),
+D('Final Exam','Maze plus a guard blocking the last corridor. Cut through it. No hints.','wheel spin sensor',{x:'armor',w:mz,s:[40,40,0],g:[[365,255]],e:{x:370,y:170,hp:100,sp:0,d:.2},kill:1,time:90}),
 D('Terminator','Bonus round. The T-XXXII is fully assembled and on autopilot. It does the Macarena for you.','',{m:'b',s:[200,250,0],time:0,b:0})];
 LV.forEach((l,i)=>{l.x=l.x?l.x.split(' '):[];l.p=l.r.concat(l.x);l.code=l.code||'';if(l.g===undefined&&!l.m&&!l.kill&&!l.surv)l.g=[[360,150]];l.b=l.b??l.r.concat(l.x.slice(0,1)).reduce((a,k)=>a+PARTS[k][1],0)+10;l.n=(l.m=='b'?'★':i+1)+' · '+l.n});
 const BN=()=>LV[li].m=='b';
@@ -172,12 +172,12 @@ try{done=+localStorage.getItem('bab')||0}catch(e){}
 const I=()=>inst[li]||(inst[li]={});
 const rad=()=>ST.a*R;
 function msg(h){$('msg').innerHTML=h}
-function open(){const L=LV[li];return(L.bt||[]).every((_,i)=>ST.pt[i]!=null&&(!L.dt||ST.t-ST.pt[i]<L.dt))&&(!L.opn||ST.t>=L.opn)}
-function hit(x,y){const L=LV[li];if(L.m)return 0;if(x<14||x>386||y<14||y>286)return 1;const ws=(L.w||[]).slice();if(L.dr&&!open())ws.push(L.dr);
- return ws.some(r=>{const cx=Math.max(r[0],Math.min(x,r[0]+r[2])),cy=Math.max(r[1],Math.min(y,r[1]+r[3]));return Math.hypot(x-cx,y-cy)<14})||ST.cr.some(k=>k.h>0&&Math.hypot(x-k.x,y-k.y)<29)}
+function dopen(){const L=LV[li];return(L.bt||[]).every((_,i)=>ST.pt[i]!=null&&(!L.dt||ST.t-ST.pt[i]<L.dt))&&(!L.opn||ST.t>=L.opn)}
+function hit(x,y){const L=LV[li];if(L.m)return 0;if(x<14||x>386||y<14||y>286)return 1;const ws=(L.w||[]).slice();if(L.dr&&!dopen())ws.push(L.dr);
+ return ws.some(r=>{const cx=Math.max(r[0],Math.min(x,r[0]+r[2])),cy=Math.max(r[1],Math.min(y,r[1]+r[3]));return Math.hypot(x-cx,y-cy)<14})||ST.cr.some(k=>k.h>0&&Math.hypot(x-k.x,y-k.y)<29)||(ST.eh>0&&Math.hypot(x-ST.ex,y-ST.ey)<27)}
 function reqp(p){if(!I()[p])throw Error('Install '+PARTS[p][0]+' first')}
 function move(d){const L=LV[li];ST.mv=1;if(L.m){reqp('legs');ST.x=Math.max(10,Math.min(385,ST.x+d));ST.steps+=Math.abs(d);ST.ph+=.22;if(!I().gyro&&ST.steps>70)ST.fall=1;return}
- reqp('wheel');const nx=ST.x+Math.cos(rad())*d,ny=ST.y+Math.sin(rad())*d;if(hit(nx,ny)){ST.bump=1;ST.mv=0}else{ST.x=nx;ST.y=ny}}
+ reqp('wheel');const nx=ST.x+Math.cos(rad())*d,ny=ST.y+Math.sin(rad())*d;if(hit(nx,ny)){ST.bump=1;ST.bc=1;ST.mv=0}else{ST.x=nx;ST.y=ny}}
 function cond(k){
  if(k=='wall_ahead'){reqp('sensor');for(let d=8;d<=44;d+=6)if(hit(ST.x+Math.cos(rad())*d,ST.y+Math.sin(rad())*d))return 1;return 0}
  if(k=='enemy_ahead'){reqp('sensor');const dx=ST.ex-ST.x,dy=ST.ey-ST.y;let a=Math.atan2(dy,dx)-rad();a=Math.atan2(Math.sin(a),Math.cos(a));return ST.eh>0&&Math.hypot(dx,dy)<220&&Math.abs(a)<.4?1:0}
@@ -204,8 +204,8 @@ function*act(s){const c=s.c,a=s.a,n=+a[0]||0,h=LV[li].m,sp=h?1:2;
  else if(c=='arm'){reqp('arm');ST.arm=a[0]=='down'?1:0;ST.up=a[0]=='up'?1:0;for(let k=0;k<20;k++)yield}
  else if(c=='spin'){reqp('spin');ST.spin=a[0]=='on'?1:0}
  else if(c=='wave'){reqp('arm');ST.wv=60;ST.lw=ST.t;for(let k=0;k<60;k++)yield}
- else if(c=='say'){reqp('cpu');ST.say=60;ST.ls=ST.t;if(!LV[li].gw||ST.t-ST.lw<240)ST.hu.forEach((x,i)=>{if(x-ST.x>0&&x-ST.x<70)ST.gr[i]=1});for(let k=0;k<30;k++)yield}}
-function reset(){const L=LV[li],e=L.e||{};ST={x:L.s[0],y:L.s[1],a:L.s[2],arm:L.arm0?1:0,up:0,spin:L.sp?1:0,hp:100,eh:e.hp||0,ex:e.x??-999,ey:e.y||0,t:0,bump:0,steps:0,fall:0,say:0,wv:0,ph:0,gr:[],gp:[],gi:0,pt:[],idl:0,mv:0,lw:-999,ls:-999,hu:L.hu||[],cr:(L.cr||[]).map(c=>({x:c[0],y:c[1],h:30})),st:'idle'};gen=null;$('go').textContent='▶ Run';msg('')}
+ else if(c=='say'){reqp('cpu');ST.say=60;ST.ls=ST.t;if(!LV[li].gw||ST.t-ST.lw<240)ST.hu.forEach((x,i)=>{if(x-ST.x>0&&x-ST.x<(LV[li].gd||70))ST.gr[i]=1});for(let k=0;k<30;k++)yield}}
+function reset(){const L=LV[li],e=L.e||{};ST={x:L.s[0],y:L.s[1],a:L.s[2],arm:L.arm0?1:0,up:0,spin:L.sp?1:0,hp:100,eh:e.hp||0,ex:e.x??-999,ey:e.y||0,t:0,bump:0,steps:0,fall:0,say:0,wv:0,ph:0,gr:[],gp:[],vg:[],gi:0,pt:[],idl:0,mv:0,lw:-999,ls:-999,hu:L.hu||[],cr:(L.cr||[]).map(c=>({x:c[0],y:c[1],h:30})),st:'idle'};gen=null;$('go').textContent='▶ Run';msg('')}
 function endg(w,m){ST.st=w?'won':'lost';const x=w?fin('g'+li):'',n=w?nxt():null;msg((w?'<span class=ok>':'<span class=bad>')+m+'</span>'+x+(n?' <button class="on" id="nx">Next ▶</button>':''));if($('nx'))$('nx').onclick=()=>open(n)}
 function run(){const L=LV[li];reset();if(BN()){ST.st='run';beep(0);return $('go').textContent='Running…'}
  const miss=L.r.filter(p=>!I()[p]);if(miss.length)return msg('<span class=bad>Install: '+miss.map(p=>PARTS[p][0]).join(', ')+'</span>');
@@ -225,11 +225,11 @@ function tick(){const L=LV[li],e=L.e;ST.t++;
  if(ST.fall)return endg(0,'Toppled over! Install a Gyro Balance.');
  const gt=L.gt||[];for(let i=0;i<gt.length;i++){const[g,k]=gt[i];if(ST.x>=g&&!ST.gp[i]){ST.gp[i]=1;if(!(k=='up'?ST.up:ST.t-(k=='wave'?ST.lw:ST.ls)<150))return endg(0,'Gate at '+g+'px needs: '+k)}}
  if(L.tc&&ST.hu.some(h=>ST.x>=h-12))return endg(0,'You bumped into a human.');
- if(L.g&&ST.gi<L.g.length&&Math.hypot(ST.x-L.g[ST.gi][0],ST.y-L.g[ST.gi][1])<22)ST.gi++;
- const ok=(!L.g||ST.gi>=L.g.length)&&(!L.kill||ST.eh<=0)&&(!L.hu||ST.gr.filter(z=>z).length==L.hu.length)&&(!L.gx||ST.x>=L.gx-12)&&(!L.stp||(ST.idl>90&&ST.x>=L.stp[0]&&ST.x<=L.stp[1]));
+ if(L.g){if(L.any)L.g.forEach((g,i)=>{if(!ST.vg[i]&&Math.hypot(ST.x-g[0],ST.y-g[1])<22){ST.vg[i]=1;ST.gi++}});else if(ST.gi<L.g.length&&Math.hypot(ST.x-L.g[ST.gi][0],ST.y-L.g[ST.gi][1])<22)ST.gi++}
+ const ok=(!L.g||ST.gi>=L.g.length)&&(!L.kill||ST.eh<=0)&&(!L.hu||L.stp||ST.gr.filter(z=>z).length==L.hu.length)&&(!L.gx||ST.x>=L.gx-12)&&(!L.stp||(ST.idl>90&&ST.x>=L.stp[0]&&ST.x<=L.stp[1]));
  if(ok&&!(L.surv&&ST.t<L.surv))return endg(1,'Level clear!');
  if(ST.hp<=0)return;
- if(!gen&&!e&&!L.stp)return endg(0,'Program finished short of the goal. Adjust and re-run.');
+ if(!gen&&!e&&!L.stp)return endg(0,'Program finished short of the goal.'+(L.g?' Waypoints reached: '+ST.gi+' of '+L.g.length+'.':'')+(ST.bc?' The bot hit a wall: check your turn direction.':'')+' Adjust and re-run.');
  if(ST.t>L.time*60)endg(0,'Out of time.')}
 function beep(a){try{AC=AC||new AudioContext();const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=a?220:165;g.gain.value=.05;o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.08)}catch(e){}}
 function fig(c,x,y,s,P,col,eye){c.save();c.translate(x,y);c.rotate((P.rot||0)*R);c.translate(0,-(P.j||0));c.scale(s*(P.sx==null?1:P.sx),s);c.lineCap='round';c.strokeStyle=col;c.fillStyle=col;
@@ -241,9 +241,9 @@ function fig(c,x,y,s,P,col,eye){c.save();c.translate(x,y);c.rotate((P.rot||0)*R)
  if(eye){c.fillStyle=eye;c.shadowColor=eye;c.shadowBlur=8;c.fillRect(sw*1.1-5,-45,3,3);c.fillRect(sw*1.1+2,-45,3,3)}c.restore()}
 function draw(){const L=LV[li],c=cv.getContext('2d');c.clearRect(0,0,400,300);c.strokeStyle=C('--w');c.fillStyle=C('--w');c.globalAlpha=.18;for(let i=20;i<400;i+=20){c.beginPath();c.moveTo(i,0);c.lineTo(i,300);c.moveTo(0,i);c.lineTo(400,i);c.stroke()}c.globalAlpha=1;
  if(BN())return bonus(c);if(L.m)return hum(c,L);
- (L.g||[]).forEach((g,i)=>{c.fillStyle=C('--g');c.globalAlpha=i<ST.gi?.1:i==ST.gi?.4:.2;c.beginPath();c.arc(g[0],g[1],22,0,7);c.fill()});c.globalAlpha=1;
+ (L.g||[]).forEach((g,i)=>{c.fillStyle=C('--g');c.globalAlpha=(L.any?ST.vg[i]:i<ST.gi)?.1:(L.any||i==ST.gi)?.4:.2;c.beginPath();c.arc(g[0],g[1],22,0,7);c.fill()});c.globalAlpha=1;
  c.fillStyle=C('--w');(L.w||[]).forEach(r=>c.fillRect(...r));
- if(L.dr){c.fillStyle=C('--r');c.globalAlpha=open()?.15:1;c.fillRect(...L.dr);c.globalAlpha=1}
+ if(L.dr){c.fillStyle=C('--r');c.globalAlpha=dopen()?.15:1;c.fillRect(...L.dr);c.globalAlpha=1}
  (L.bt||[]).forEach((b,i)=>{c.fillStyle=ST.pt[i]!=null&&(!L.dt||ST.t-ST.pt[i]<L.dt)?C('--g'):C('--r');c.beginPath();c.arc(b[0],b[1],10,0,7);c.fill()});
  if(L.nz){c.fillStyle=C('--r');c.globalAlpha=.25;c.fillRect(L.nz[0],0,L.nz[1]-L.nz[0],300);c.globalAlpha=1}
  ST.cr.forEach(k=>{if(k.h>0){c.fillStyle=C('--m');c.fillRect(k.x-15,k.y-15,30,30)}});

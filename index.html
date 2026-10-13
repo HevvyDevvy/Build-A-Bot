@@ -2,6 +2,14 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Build a Bot</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#17202b">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Build a Bot">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+
 <style>
 :root{--bg:#e8edf2;--p:#fff;--t:#17202b;--m:#566475;--a:#f2b705;--ai:#17202b;--g:#14934f;--r:#d03a3a;--f:#d7dfe8;--w:#4b596a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0c1118;--p:#151d27;--t:#e6edf5;--m:#8c9bad;--a:#ffc21a;--g:#37d67f;--r:#ff6060;--f:#1b2531;--w:#6d7f94}}
@@ -314,4 +322,5 @@ $('go').onclick=run;$('rs').onclick=()=>reset();
 let last=0,acc=0;function loop(t){acc+=Math.min(t-last,100);last=t;while(acc>16.7){acc-=16.7;if(ST.st=='run')tick()}draw();requestAnimationFrame(loop)}
 $('hm').onclick=()=>show('home');$('bw').onclick=()=>{show('wal');wallet()};$('lr').onclick=runLab;$('lx').onclick=()=>{delete labc[lj];lab(lj)};
 sel(0);show('home');requestAnimationFrame(loop);
-</script></body></html>
+</script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js',{scope:'./'}).catch(()=>{})})}</script>
+</body></html>
